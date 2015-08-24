@@ -3,8 +3,11 @@ package com.fauge.games.LudumDare33.world;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.fauge.game.LudumDare33.Screens.GameScreen;
 import com.fauge.games.LudumDare33.Characters.Enemy;
@@ -59,9 +62,10 @@ public class GameWorld {
 				entitylist.add(new Entity(worldid[x][y],x*32,y*32));
 			}
 		}
-		fnd = new Friendly(4, 4*32, 8*32);
-		fnd2 = new Friendly(4, 5*32, 8*32);
-		fnd3 = new Friendly(4, 6*32, 8*32);
+		
+		fnd = new Friendly(4, MathUtils.random(1, 14)*32, MathUtils.random(1, 14)*32);
+		fnd2 = new Friendly(4, MathUtils.random(1, 14)*32, MathUtils.random(1, 14)*32);
+		fnd3 = new Friendly(4, MathUtils.random(1, 14)*32, MathUtils.random(1, 14)*32);
 		player = new Player(5, 2*32, 2*32);
 		enmy = new Enemy(6, 8*32, 8*32);
 		
@@ -79,7 +83,6 @@ public class GameWorld {
 		for(Entity e : entitylist){
 			e.render(batch);
 		}
-//		player.render(batch);
 		
 		for(Entity e : CharacterList){
 			if(!e.shouldRemove)
@@ -103,12 +106,12 @@ public class GameWorld {
 				iter.remove();
 			}
 		}
-		/*rend.begin(ShapeType.Filled);
-		rend.setColor(Color.BLACK);
-		for(Rectangle r : RectList){
-			rend.rect(r.x, r.y, r.width, r.height);
-		}
-		rend.end();*/
+//		rend.begin(ShapeType.Filled);
+//		rend.setColor(Color.BLACK);
+//		for(Rectangle r : RectList){
+//			rend.rect(r.x, r.y, r.width, r.height);
+//		}
+//		rend.end();
 	}
 
 	public void printWorld(){

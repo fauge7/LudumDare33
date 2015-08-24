@@ -16,7 +16,6 @@ public class Loader {
 			FileHandle file = new FileHandle("map.txt");
 			String text = file.readString();
 			Scanner scan = new Scanner(text);
-			System.out.println(text);
 				for(int x = 0; x < 16; x++){
 					for(int y = 0; y < 16; y++){
 						worldid[x][y] = scan.nextInt();
