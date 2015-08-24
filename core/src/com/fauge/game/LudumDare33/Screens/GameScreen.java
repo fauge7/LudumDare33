@@ -2,7 +2,9 @@ package com.fauge.game.LudumDare33.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.fauge.games.LudumDare33.world.GameWorld;
 
 public class GameScreen implements Screen {
@@ -10,25 +12,30 @@ public class GameScreen implements Screen {
 	Game game;
 	SpriteBatch batch;
 	GameWorld gameWorld;
+	OrthographicCamera cam;
+	public static StretchViewport view;
 	public GameScreen(Game game, SpriteBatch batch) {
 		// TODO Auto-generated constructor stub
 		this.game = game;
 		this.batch = batch;
-		gameWorld = new GameWorld(0);
+		cam = new OrthographicCamera(512,512);
+		cam.position.set(256, 256, 0);
+		cam.update();
+		view = new StretchViewport(512, 512, cam);
+		batch.setProjectionMatrix(cam.combined);
+		gameWorld = new GameWorld(-1);
 	}
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 		gameWorld.InitializeWorld();
-		gameWorld.printWorld();
 		
 	}
 
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
-		gameWorld.step();
 		batch.begin();
 		gameWorld.render(batch);
 		batch.end();

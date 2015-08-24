@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.fauge.games.LudumDare33.Entities.Entity;
+import com.fauge.games.LudumDare33.world.GameWorld;
 
 public class Friendly extends Entity{
 
@@ -20,7 +22,10 @@ public class Friendly extends Entity{
 	Animation anim;
 	float degrees = 0;
 	boolean forward = true;
-	float speed = 0;
+	float speed;
+	Entity target = null;
+	float updateTargetTime = 2f;
+	float updateTargetTimer = 1f;
 	public Friendly(int id,float startX,float startY) {
 		super(id, startX, startY);
 		foottex = new TextureRegion(stillfeet);
@@ -34,16 +39,33 @@ public class Friendly extends Entity{
 	}
 	public void render(SpriteBatch batch){
 		//do ai logic in here
+		if(updateTargetTime > updateTargetTimer){
+			updateTargetTime = 0;
+			setTarget();
+		}
+		else{
+			updateTargetTime+=Gdx.graphics.getDeltaTime();
+		}
+		degrees = (float) Math.atan2(target.getY() - getY(), target.getX() - getX());
 		
+		speed = 1;
 		
-		
-		float dx = 100 * Gdx.graphics.getDeltaTime() * MathUtils.cosDeg(90+degrees) * speed;
-		float dy = 100 * Gdx.graphics.getDeltaTime() * MathUtils.sinDeg(90+degrees) * speed;
+		degrees = degrees * MathUtils.radDeg;
+		float dx = 75 * Gdx.graphics.getDeltaTime() * MathUtils.cosDeg(degrees) * speed;
+		float dy = 75 * Gdx.graphics.getDeltaTime() * MathUtils.sinDeg(degrees) * speed;
 		x += dx;
 		y += dy;
-		feet.setRotation(degrees);
-		float xx = 18 * MathUtils.cosDeg(90+degrees);
-		float yy = 18 * MathUtils.sinDeg(90+degrees);
+		spr.setPosition(x, y);
+		for(Rectangle rect : GameWorld.RectList){
+			if(spr.getBoundingRectangle().overlaps(rect)){
+				x-=dx;
+				y-=dy;
+				break;
+			}
+		}
+		feet.setRotation(90+degrees);
+		float xx = 18 * MathUtils.cosDeg(degrees);
+		float yy = 18 * MathUtils.sinDeg(degrees);
 		feet.setPosition(x + xx, y + yy);
 		feet.draw(batch);
 		super.render(batch);
@@ -54,4 +76,11 @@ public class Friendly extends Entity{
 
 	}
 
+	public void setTarget(){
+		for(Entity e : GameWorld.CharacterList){
+			if(e.ID == 6){
+				target = e;
+			}	
+		}
+	}
 }

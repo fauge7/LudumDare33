@@ -31,24 +31,4 @@ public class Generator {
 			}
 		}
 	}
-
-	public static int[][] getNewWorld() {
-		// TODO Auto-generated method stub
-		for (int x = 0; x < worldid.length; x++) {
-			for (int y = 0; y < worldid[0].length; y++) {
-				if(x == 6 && y >= 3){
-					if(x == 6 &&  y <13){
-					worldid[x][y] = 1;
-					}
-					else{
-						worldid[x][y] = worldid[x][y] = MathUtils.random(2, 3);
-					}
-				}
-				else{
-					worldid[x][y] = MathUtils.random(2, 3);
-				}
-			}
-		}
-		return worldid;
-	}
 }
